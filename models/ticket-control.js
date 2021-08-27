@@ -2,9 +2,9 @@ const path = require('path');
 const fs = require('fs');
 
 class Ticket {
-    constructor() {
+    constructor(numero, escritorio) {
         this.numero = numero;
-        this.escritorio = this.escritorio;
+        this.escritorio = escritorio;
     }
 }
 
@@ -53,7 +53,7 @@ class TicketControl {
         this.tickets.push(ticket);
 
         this.guardarDB();
-        return 'Ticket' + ticket.numero;
+        return 'Ticket ' + ticket.numero;
     }
 
     atenderTicket(escritorio) {
