@@ -1,6 +1,8 @@
 // Referencias HTML
 const lblEscritorio = document.querySelector('h1');
 const btnAtender = document.querySelector('button');
+const lblTicket = document.querySelector('small');
+const divAlerta = document.querySelector('.alert');
 
 
 
@@ -13,6 +15,8 @@ if (!searchParamas.has('escritorio')) {
 
 const escritorio = searchParamas.get('escritorio');
 lblEscritorio.innerText = escritorio;
+
+divAlerta.style.display = 'none';
 
 const socket = io();
 
@@ -35,8 +39,17 @@ socket.on('ultimo-ticket', (ultimo) => {
 
 
 
-btnCrear.addEventListener('click', () => {
+btnAtender.addEventListener('click', () => {
 
+
+    socket.emit('atender-ticket', { escritorio }, ({ ok, ticket, msg }) => {
+        if (!ok) {
+            lblTicket.innerHTML = 'Nadie';
+            return divAlerta.style.display = '';
+        }
+
+        lblTicket.innerHTML = 'Ticket' + ticket.numero;
+    });
     // socket.emit('siguiente-ticket', null, (ticket) => {
     //     lblNuevoTicket.innerText = ticket;
     // });

@@ -14,7 +14,7 @@ class TicketControl {
         this.ultimo = 0;
         this.hoy = new Date().getDate();
         this.tickets = [];
-        this.tickets4 = [];
+        this.ultimos4 = [];
 
         this.init();
     }
@@ -64,6 +64,8 @@ class TicketControl {
         }
 
         const ticket = this.tickets.shift();
+        ticket.escritorio = escritorio;
+
 
         this.ultimos4.unshift(ticket);
 
