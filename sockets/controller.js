@@ -4,16 +4,17 @@ const ticketControl = new TicketControl();
 
 const socketController = (socket) => {
 
-
+    // Cuando un cliente se conecta
     socket.emit('ultimo-ticket', ticketControl.ultimo);
+    socket.emit('estado-actual', ticketControl.ultimos4);
+    socket.emit('tickets-pendientes', ticketControl.tickets.length);
 
     socket.on('siguiente-ticket', (payload, callback) => {
 
 
         const siguiente = ticketControl.siguiente();
         callback(siguiente);
-
-        //TODO MODIFICAR QUE HAY UN NUEVO TICKET PENDIENTE
+        socket.broadcast.emit('tickets-pendientes', ticketControl.tickets.length);
 
     });
 
@@ -27,6 +28,10 @@ const socketController = (socket) => {
         }
 
         const ticket = ticketControl.atenderTicket(escritorio);
+
+        socket.broadcast.emit('estado-actual', ticketControl.ultimos4);
+        socket.emit('tickets-pendientes', ticketControl.tickets.length);
+        socket.broadcast.emit('tickets-pendientes', ticketControl.tickets.length);
 
         // TODO: Notificar cambio en los ultimos4
 
